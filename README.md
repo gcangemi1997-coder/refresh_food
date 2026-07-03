@@ -262,7 +262,7 @@ The controllers return JSON responses and use standard HTTP status codes such as
 ## 👨‍💻 Personal Links
 
 - Portfolio Website: [GC-portfolio](https://gc-portfolio-eta.vercel.app/)
-- Github Repo: [gcangemi1997-coder.github.io](https://gcangemi1997-coder.github.io/)
+- Github Repo: [gcangemi1997-coder.github.io](https://github.com/gcangemi1997-coder)
 - LinkedIn: [giorgio-cangemi-7b4b77172](https://www.linkedin.com/in/giorgio-cangemi-7b4b77172/)
 
 ---
