@@ -1,4 +1,4 @@
-# 🍏 ReFresh Food API
+<h1 align="center"> # 🍏 ReFresh Food API
 
 <p align="center">
   <img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP badge" />
