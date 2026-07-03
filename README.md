@@ -150,9 +150,7 @@ The total environmental impact is calculated by joining orders, order items, and
 
 Formula:
 
-$$
-\text{Total CO₂ Saved} = \sum (\text{quantity} \times \text{co2\_saved\_per\_unit})
-$$
+$$Total\ CO_2 Saved = \sum_{i=1}^{n} (Quantity_i \times CO_{2\_saved\_per\_unit,i})$$
 
 ---
 
