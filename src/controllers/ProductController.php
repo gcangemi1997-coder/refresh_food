@@ -1,5 +1,4 @@
 <?php
-// src/Controllers/ProductController.php
 
 class ProductController
 {
@@ -102,7 +101,6 @@ class ProductController
 
     private function updateProduct(int $id): void
     {
-        // Controllo esistenza
         $stmt = $this->pdo->prepare('SELECT id FROM products WHERE id = :id');
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

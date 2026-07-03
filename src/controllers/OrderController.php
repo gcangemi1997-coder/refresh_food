@@ -44,10 +44,7 @@ class OrderController
         }
     }
 
-    /**
-     * GET /orders
-     * Restituisce tutti gli ordini con i rispettivi items
-     */
+    // RESTITUISCI TUTTI GLI ORDINI 
     private function getAllOrders(): void
     {
         $stmt = $this->pdo->query(
@@ -111,10 +108,7 @@ class OrderController
         jsonResponse($result, 200);
     }
 
-    /**
-     * GET /orders/{id}
-     * Restituisce un singolo ordine con i rispettivi items
-     */
+    // RESTITUISCI UN ORDINE
     private function getOrder(int $id): void
     {
         $stmt = $this->pdo->prepare(
@@ -162,9 +156,6 @@ class OrderController
         jsonResponse($response, 200);
     }
 
-    /**
-     * POST /orders
-     */
     private function createOrder(): void
     {
         $input = getJsonInput();
@@ -218,10 +209,7 @@ class OrderController
         }
     }
 
-    /**
-     * PUT/PATCH /orders/{id}
-     * Aggiorna dati ordine e, se presenti, sostituisce gli items
-     */
+    // AGGIORNA UN ORDINE E SOSTITUISCE GLI ITEMS
     private function updateOrder(int $id): void
     {
         $stmtCheck = $this->pdo->prepare('SELECT id FROM orders WHERE id = :id');
@@ -304,9 +292,7 @@ class OrderController
         }
     }
 
-    /**
-     * DELETE /orders/{id}
-     */
+    // DELETE
     private function deleteOrder(int $id): void
     {
         $stmt = $this->pdo->prepare('DELETE FROM orders WHERE id = :id');

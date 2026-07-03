@@ -9,9 +9,7 @@ class StatsController
         $this->pdo = $pdo;
     }
 
-    /**
-     * Entry point per /stats/co2
-     */
+    // ENTRY POINT PER /stats/co2
     public function handleCo2(string $method): void
     {
         if ($method !== 'GET') {
@@ -21,9 +19,7 @@ class StatsController
         $this->getCo2Stats();
     }
 
-    /**
-     * Ricalcola e aggiorna la cache globale del totale CO2
-     */
+
     private function refreshGlobalCo2Cache(): void
     {
         $sql = "
@@ -46,9 +42,6 @@ class StatsController
         $stmtUpdate->execute();
     }
 
-    /**
-     * GET /stats/co2?from=...&to=...&country=IT&product_id=1
-     */
     private function getCo2Stats(): void
     {
         $from = $_GET['from'] ?? null;
@@ -62,7 +55,7 @@ class StatsController
             ($country === null || $country === '') &&
             ($productId === null || $productId === '');
 
-        // Nessun filtro: uso cache aggiornata
+        // USO DELLA CACHE
         if ($noFilters) {
             $this->refreshGlobalCo2Cache();
 
