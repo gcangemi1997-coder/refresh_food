@@ -1,0 +1,44 @@
+-- CREAZIONE DATABASE
+CREATE DATABASE IF NOT EXISTS refresh_food
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+USE refresh_food;
+
+-- TABELLA PRODOTTI
+CREATE TABLE IF NOT EXISTS products(
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    co2_saved_per_unit  DECIMAL (10,2) NOT NULL
+    ) ENGINE =InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- TABELLA ORDINI
+CREATE TABLE IF NOT EXISTS orders(
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    sold_at DATETIME NOT NULL,
+    destination_country CHAR(2) NOT NULL,
+    INDEX idx_sold_at (sold_at),
+    INDEX idx_country (destination_country)
+    ) ENGINE =InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- TABELLA ARTICOLI
+CREATE TABLE IF NOT EXISTS order_items(
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    order_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    quantity INT UNSIGNED NOT NULL DEFAULT 1,
+    -- CASCADE USATO PER MANTENERE DATABASE PULITO IN SEGUITO ALL'ELIMINAZIONE DELL'orders
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    -- RESCRICT USATO PER IMPEDIRE DI CANCELLARE UN PRODuct ANCORA USATO
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,
+    INDEX idx_order_product (order_id, product_id)
+    ) ENGINE =InnoDB DEFAULT CHARSET=utf8mb4;
+
+    -- Cache delle statistiche globali di CO2
+CREATE TABLE stats_cache (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    total_co2_saved DECIMAL(18, 4) NOT NULL DEFAULT 0,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Inseriamo una riga iniziale (cache globale)
+INSERT INTO stats_cache (total_co2_saved) VALUES (0);
