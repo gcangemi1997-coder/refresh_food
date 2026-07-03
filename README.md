@@ -9,15 +9,15 @@
   <img src="https://img.shields.io/badge/Status-Working%20Project-2EA44F?style=for-the-badge" alt="Status badge" />
 </p>
 
-A compact and structured **RESTful API** built with **PHP**, **MySQL**, and **PDO** for managing recovered food products, orders, and environmental impact tracking. This project focuses on clean routing, relational data handling, and dynamic CO₂ analytics based on recovered food transactions. [1][2][3][4]
+A compact and structured **RESTful API** built with **PHP**, **MySQL**, and **PDO** for managing recovered food products, orders, and environmental impact tracking. This project focuses on clean routing, relational data handling, and dynamic CO₂ analytics based on recovered food transactions.
 
 ---
 
 ## ✨ Overview
 
-ReFresh Food API allows you to manage a catalog of products, create sales orders containing multiple items, and calculate the total CO₂ saved through food recovery operations. The application uses a simple front controller in `public/index.php`, dedicated controllers for each domain, and a MySQL schema with relational integrity between products, orders, and order items. [5][1][2][4]
+ReFresh Food API allows you to manage a catalog of products, create sales orders containing multiple items, and calculate the total CO₂ saved through food recovery operations. The application uses a simple front controller in `public/index.php`, dedicated controllers for each domain, and a MySQL schema with relational integrity between products, orders, and order items.
 
-The project also includes a `stats_cache` table used to store and refresh the global CO₂ total when no filters are applied, while filtered analytics are calculated dynamically through SQL joins. [3][4]
+The project also includes a `stats_cache` table used to store and refresh the global CO₂ total when no filters are applied, while filtered analytics are calculated dynamically through SQL joins.
 
 ---
 
@@ -25,49 +25,49 @@ The project also includes a `stats_cache` table used to store and refresh the gl
 
 ### 📦 Products
 
-- Get all products. [1]
-- Get a single product by id. [1]
-- Create a new product with `name` and `co2_saved_per_unit`. [1]
-- Update an existing product. [1]
-- Delete a product. [1]
+- Get all products.
+- Get a single product by id.
+- Create a new product with `name` and `co2_saved_per_unit`.
+- Update an existing product.
+- Delete a product.
 
 ### 🛒 Orders
 
-- Get all orders with their related items. [2]
-- Get a single order with product details. [2]
-- Create an order with `sold_at`, `destination_country`, and nested `items`. [2]
-- Update order data and optionally replace its items. [2]
-- Delete an order. [2]
-- Automatic CO₂ cache refresh after order creation, update, and deletion. [2][5]
+- Get all orders with their related items.
+- Get a single order with product details.
+- Create an order with `sold_at`, `destination_country`, and nested `items`.
+- Update order data and optionally replace its items.
+- Delete an order.
+- Automatic CO₂ cache refresh after order creation, update, and deletion.
 
 ### 📊 CO₂ Analytics
 
-- Get total CO₂ saved from all recorded order items. [3]
-- Use global cached stats when no filters are provided. [3][4]
+- Get total CO₂ saved from all recorded order items.
+- Use global cached stats when no filters are provided.
 - Filter analytics by:
   - `from`
   - `to`
   - `country`
-  - `product_id` [3]
+  - `product_id`
 
 ### 🔒 Security and Data Access
 
-- Uses PDO prepared statements with bound parameters across user-driven SQL queries. [1][2][3]
-- PDO emulated prepares are disabled in the database connection. [6]
-- Uses transactions for order creation and updates involving multiple related inserts. [2]
-- Foreign keys enforce relational consistency between `orders`, `products`, and `order_items`. [4]
+- Uses PDO prepared statements with bound parameters across user-driven SQL queries.
+- PDO emulated prepares are disabled in the database connection.
+- Uses transactions for order creation and updates involving multiple related inserts.
+- Foreign keys enforce relational consistency between `orders`, `products`, and `order_items`.
 
 ---
 
 ## 🧱 Tech Stack
 
-| Technology      | Purpose                                |
-| --------------- | -------------------------------------- |
-| PHP 8.x         | Core backend language. [5]             |
-| MySQL / MariaDB | Relational database. [4]               |
-| PDO             | Secure database access layer. [6]      |
-| Apache / XAMPP  | Local development environment. [7]     |
-| JSON            | Request and response format. [2][1][3] |
+| Technology      | Purpose                        |
+| --------------- | ------------------------------ |
+| PHP 8.x         | Core backend language.         |
+| MySQL / MariaDB | Relational database.           |
+| PDO             | Secure database access layer.  |
+| Apache / XAMPP  | Local development environment. |
+| JSON            | Request and response format.   |
 
 ---
 
@@ -87,29 +87,29 @@ refresh_food/
 └── migration.sql
 ```
 
-- `public/index.php` is the front controller and router entry point. [5]
-- `src/controllers/` contains the API domain logic for products, orders, and analytics. [1][2][3]
-- `src/config.php` contains database configuration constants. [8]
-- `src/Database.php` handles the PDO singleton connection. [6]
-- `migration.sql` creates the schema and initializes the stats cache row. [4]
+- `public/index.php` is the front controller and router entry point.
+- `src/controllers/` contains the API domain logic for products, orders, and analytics.
+- `src/config.php` contains database configuration constants.
+- `src/Database.php` handles the PDO singleton connection.
+- `migration.sql` creates the schema and initializes the stats cache row.
 
 ---
 
 ## 🗄️ Database Schema
 
-The project is based on four main tables: [4]
+The project is based on four main tables:
 
-- `products`: stores product name and CO₂ saved per unit. [4]
-- `orders`: stores sale date and destination country. [4]
-- `order_items`: links orders to products with quantities. [4]
-- `stats_cache`: stores the global cached CO₂ total and update timestamp. [4]
+- `products`: stores product name and CO₂ saved per unit.
+- `orders`: stores sale date and destination country.
+- `order_items`: links orders to products with quantities.
+- `stats_cache`: stores the global cached CO₂ total and update timestamp.
 
 ### Relationship model
 
-- One order can contain multiple items. [4]
-- One product can appear in many order items. [4]
-- `order_items.order_id` uses `ON DELETE CASCADE`. [4]
-- `order_items.product_id` uses `ON DELETE RESTRICT`. [4]
+- One order can contain multiple items.
+- One product can appear in many order items.
+- `order_items.order_id` uses `ON DELETE CASCADE`.
+- `order_items.product_id` uses `ON DELETE RESTRICT`.
 
 ---
 
@@ -117,36 +117,36 @@ The project is based on four main tables: [4]
 
 ### Products
 
-| Method      | Endpoint         | Description                     |
-| ----------- | ---------------- | ------------------------------- |
-| GET         | `/products`      | Retrieve all products. [1]      |
-| GET         | `/products/{id}` | Retrieve one product by id. [1] |
-| POST        | `/products`      | Create a new product. [1]       |
-| PUT / PATCH | `/products/{id}` | Update a product. [1]           |
-| DELETE      | `/products/{id}` | Delete a product. [1]           |
+| Method      | Endpoint         | Description                 |
+| ----------- | ---------------- | --------------------------- |
+| GET         | `/products`      | Retrieve all products.      |
+| GET         | `/products/{id}` | Retrieve one product by id. |
+| POST        | `/products`      | Create a new product.       |
+| PUT / PATCH | `/products/{id}` | Update a product.           |
+| DELETE      | `/products/{id}` | Delete a product.           |
 
 ### Orders
 
-| Method      | Endpoint       | Description                                       |
-| ----------- | -------------- | ------------------------------------------------- |
-| GET         | `/orders`      | Retrieve all orders with nested items. [2]        |
-| GET         | `/orders/{id}` | Retrieve one order with nested items. [2]         |
-| POST        | `/orders`      | Create a new order. [2]                           |
-| PUT / PATCH | `/orders/{id}` | Update an order and optionally replace items. [2] |
-| DELETE      | `/orders/{id}` | Delete an order. [2]                              |
+| Method      | Endpoint       | Description                                   |
+| ----------- | -------------- | --------------------------------------------- |
+| GET         | `/orders`      | Retrieve all orders with nested items.        |
+| GET         | `/orders/{id}` | Retrieve one order with nested items.         |
+| POST        | `/orders`      | Create a new order.                           |
+| PUT / PATCH | `/orders/{id}` | Update an order and optionally replace items. |
+| DELETE      | `/orders/{id}` | Delete an order.                              |
 
 ### Stats
 
-| Method | Endpoint                                                | Description                          |
-| ------ | ------------------------------------------------------- | ------------------------------------ |
-| GET    | `/stats/co2`                                            | Retrieve total CO₂ saved. [3]        |
-| GET    | `/stats/co2?from=...&to=...&country=...&product_id=...` | Retrieve filtered CO₂ analytics. [3] |
+| Method | Endpoint                                                | Description                      |
+| ------ | ------------------------------------------------------- | -------------------------------- |
+| GET    | `/stats/co2`                                            | Retrieve total CO₂ saved.        |
+| GET    | `/stats/co2?from=...&to=...&country=...&product_id=...` | Retrieve filtered CO₂ analytics. |
 
 ---
 
 ## 🧮 CO₂ Calculation Logic
 
-The total environmental impact is calculated by joining orders, order items, and products, then summing the product quantity multiplied by the saved CO₂ per unit. This logic is used both for global cache refresh and for filtered analytics queries. [5][3]
+The total environmental impact is calculated by joining orders, order items, and products, then summing the product quantity multiplied by the saved CO₂ per unit. This logic is used both for global cache refresh and for filtered analytics queries.
 
 Formula:
 
@@ -167,7 +167,7 @@ curl -X POST http://localhost/refresh_food/public/products \
   }'
 ```
 
-Based on the product creation flow, the API expects `name` and `co2_saved_per_unit` in the JSON body. [1]
+Based on the product creation flow, the API expects `name` and `co2_saved_per_unit` in the JSON body.
 
 ### Create an order
 
@@ -184,7 +184,7 @@ curl -X POST http://localhost/refresh_food/public/orders \
   }'
 ```
 
-The order payload matches the controller logic that requires `sold_at`, `destination_country`, and a non-empty `items` array. [2]
+The order payload matches the controller logic that requires `sold_at`, `destination_country`, and a non-empty `items` array.
 
 ### Get filtered CO₂ stats
 
@@ -213,7 +213,7 @@ For XAMPP on macOS, place it under:
 /Applications/XAMPP/xamppfiles/htdocs/
 ```
 
-Your final path can look like this: [7]
+Your final path can look like this:
 
 ```text
 /Applications/XAMPP/xamppfiles/htdocs/refresh_food
@@ -227,11 +227,11 @@ Open MySQL and run:
 SOURCE migration.sql;
 ```
 
-The SQL migration creates the `refresh_food` database, the required tables, indexes, foreign keys, and initializes the `stats_cache` table. [4]
+The SQL migration creates the `refresh_food` database, the required tables, indexes, foreign keys, and initializes the `stats_cache` table.
 
 ### 4. Configure database credentials
 
-Update `src/config.php` with your local database values: [8]
+Update `src/config.php` with your local database values:
 
 ```php
 <?php
@@ -243,19 +243,19 @@ const DB_PASS = 'your_password';
 
 ### 5. Start Apache and MySQL
 
-Run Apache and MySQL from XAMPP, then open the project in your browser or test it with cURL/Postman. The application entry point is the public front controller. [7][5]
+Run Apache and MySQL from XAMPP, then open the project in your browser or test it with cURL/Postman. The application entry point is the public front controller.
 
 ---
 
 ## 🧠 Routing
 
-The application uses a single front controller located in `public/index.php`, which resolves the request path and dispatches it to `ProductController`, `OrderController`, or `StatsController`. The `/stats/co2` route is explicitly handled as a nested route. [5]
+The application uses a single front controller located in `public/index.php`, which resolves the request path and dispatches it to `ProductController`, `OrderController`, or `StatsController`. The `/stats/co2` route is explicitly handled as a nested route.
 
 ---
 
 ## ✅ Response Behavior
 
-The controllers return JSON responses and use standard HTTP status codes such as `200`, `201`, `204`, `400`, `404`, `405`, and `500` depending on the request result. This behavior is visible across products, orders, and stats endpoints. [1][2][3]
+The controllers return JSON responses and use standard HTTP status codes such as `200`, `201`, `204`, `400`, `404`, `405`, and `500` depending on the request result. This behavior is visible across products, orders, and stats endpoints.
 
 ---
 
@@ -269,4 +269,4 @@ The controllers return JSON responses and use standard HTTP status codes such as
 
 ## 📌 Notes
 
-This README is aligned with the current project structure and implemented features visible in the provided codebase. In particular, the exposed routes are based on the current front controller, the analytics endpoint is `/stats/co2`, and the project uses `sold_at`, `destination_country`, and `co2_saved_per_unit` as the actual field names. [5][2][1][3][4]
+This README is aligned with the current project structure and implemented features visible in the provided codebase. In particular, the exposed routes are based on the current front controller, the analytics endpoint is `/stats/co2`, and the project uses `sold_at`, `destination_country`, and `co2_saved_per_unit` as the actual field names.
